@@ -1,0 +1,39 @@
+Resources:
+  MyInstance:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: ap-south-1a
+      ImageId: ami-00bf4ae5a7909786c
+      InstanceType: t2.micro
+      SecurityGroups:
+        - !Ref SSHSecurityGroup 
+        - !Ref ServerSecurityGroup
+      UserData:
+        Fn::Base64: !Sub |
+            #!/bin/bash -xe
+            apt install
+
+  MyElasticIP:
+    Type: AWS::EC2::EIP
+    Properties: 
+      InstanceId: !Ref MyInstance
+
+  SSHSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH and Http
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 22
+          IpProtocol: tcp
+          ToPort: 22
+
+  ServerSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Enable SSH and Http
+      SecurityGroupIngress:
+        - CidrIp: 0.0.0.0/0
+          FromPort: 80
+          IpProtocol: tcp
+          ToPort: 80

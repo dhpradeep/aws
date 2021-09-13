@@ -1,0 +1,12 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  OrdersTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: AuthorsTable_prod
+      AttributeDefinitions:
+        - AttributeName: "AuthorName"
+          AttributeType: "S"
+        - AttributeName: "BookTitle"
+          AttributeType: "S"
